@@ -10,6 +10,7 @@ NODE *nodeFactory(int newValue);
 void insertLeft(NODE *node, int newValue);
 void insertRight(NODE *node, int newValue);
 void printTree(NODE *row);
+int numberOfElements(NODE *row);
 
 int main () {
     int newValue;
@@ -19,8 +20,8 @@ int main () {
         else if (row->value > newValue) insertLeft(row, newValue);
         else if (row->value < newValue) insertRight(row, newValue);
     }
-
-    printTree(row);    
+    printf("\nnumber of elements: %i\n", numberOfElements(row));
+    printTree(row); 
 }
 
 void insertLeft (NODE *row, int newValue) {
@@ -35,14 +36,6 @@ void insertRight (NODE *row, int newValue) {
     else if (row->right->value < newValue) insertRight(row->right, newValue);
 }
 
-void printTree(NODE *row) {
-    if (row != NULL) {
-        printTree(row->left);
-        printf("%i\n", row->value);
-        printTree(row->right);
-    }
-}
-
 NODE *nodeFactory(int newValue) {
     NODE *newNode = malloc(sizeof(NODE));
     newNode->value = newValue;
@@ -50,4 +43,17 @@ NODE *nodeFactory(int newValue) {
     newNode->right = NULL;
 
     return newNode;
+}
+
+void printTree(NODE *row) {
+    if (row != NULL) {
+        printTree(row->left);
+        printf("%i ", row->value);
+        printTree(row->right);
+    }
+}
+
+int numberOfElements(NODE *row) {
+    if (row == NULL) return 0;
+    return 1 + numberOfElements(row->left) + numberOfElements(row->right);
 }
